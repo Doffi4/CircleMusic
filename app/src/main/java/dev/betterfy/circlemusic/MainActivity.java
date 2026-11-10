@@ -84,9 +84,19 @@ public class MainActivity extends Activity {
         Intent music = new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_APP_MUSIC);
         for (ResolveInfo info : getPackageManager().queryIntentActivities(music, 0)) musicApps.add(info.activityInfo.packageName);
         HashSet<String> seen = new HashSet<>();
+        Intent youtubeSearch = PlayerSearch.create(PlayerSearch.YOUTUBE_MUSIC, null, "Circle Music");
+        ResolveInfo youtube = getPackageManager().resolveActivity(youtubeSearch, android.content.pm.PackageManager.MATCH_DEFAULT_ONLY);
+        if (youtube != null && youtube.activityInfo.exported) {
+            seen.add(PlayerSearch.YOUTUBE_MUSIC);
+            actions.put(PlayerSearch.YOUTUBE_MUSIC, SearchAction.ANDROID);
+            ApplicationInfo app = youtube.activityInfo.applicationInfo;
+            addPlayer(app.loadLabel(getPackageManager()).toString(), PlayerSearch.YOUTUBE_MUSIC,
+                app.loadIcon(getPackageManager()), selected);
+        }
         for (String action : new String[] {SearchAction.ANDROID, SearchAction.GOOGLE}) {
             for (ResolveInfo info : getPackageManager().queryIntentActivities(new Intent(action), 0)) {
                 String name = info.activityInfo.packageName;
+                if (PlayerSearch.YOUTUBE_MUSIC.equals(name)) continue;
                 if (!musicApps.contains(name) && info.activityInfo.applicationInfo.category != ApplicationInfo.CATEGORY_AUDIO) continue;
                 if (!seen.add(name)) continue;
                 actions.put(name, action);
