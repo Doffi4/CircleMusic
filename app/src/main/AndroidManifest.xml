@@ -1,0 +1,14 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <queries><intent><action android:name="android.intent.action.MAIN" /><category android:name="android.intent.category.APP_MUSIC" /></intent><intent><action android:name="android.intent.action.SEARCH" /></intent><intent><action android:name="com.google.android.gms.actions.SEARCH_ACTION" /></intent><package android:name="com.google.android.googlequicksearchbox" /></queries>
+    <application android:label="Circle Music" android:theme="@android:style/Theme.Material.NoActionBar" android:allowBackup="false">
+        <meta-data android:name="xposedmodule" android:value="true" />
+        <meta-data android:name="xposeddescription" android:value="Открывает результаты распознавания в выбранном плеере" />
+        <meta-data android:name="xposedminversion" android:value="82" />
+        <meta-data android:name="xposedscope" android:resource="@array/xposed_scope" />
+        <activity android:name=".MainActivity" android:exported="true"><intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter></activity>
+        <provider android:name=".SettingsProvider" android:authorities="dev.betterfy.circlemusic.settings" android:exported="true" />
+    </application>
+</manifest>
+
+
+
